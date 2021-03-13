@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,28 +35,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest().authenticated();
         http
             .formLogin();
-        http.logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
-                .addLogoutHandler(new LogoutHandler() {
-                    @Override
-                    public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
-                        HttpSession session = httpServletRequest.getSession();
-                        session.invalidate();
-                    }
-                })
-                .logoutSuccessHandler(new LogoutSuccessHandler() {
-                    @Override
-                    public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-                        httpServletResponse.sendRedirect("/login");
-                    }
-                })
-                .deleteCookies("remember-me")
-                .and()
-                .rememberMe()
-                .rememberMeParameter("remember")
-                .tokenValiditySeconds(3600)
-                .userDetailsService(userDetailsService);
+//        http.logout()
+//                .logoutUrl("/logout")
+//                .logoutSuccessUrl("/login")
+//                .addLogoutHandler(new LogoutHandler() {
+//                    @Override
+//                    public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
+//                        HttpSession session = httpServletRequest.getSession();
+//                        session.invalidate();
+//                    }
+//                })
+//                .logoutSuccessHandler(new LogoutSuccessHandler() {
+//                    @Override
+//                    public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+//                        httpServletResponse.sendRedirect("/login");
+//                    }
+//                })
+//                .deleteCookies("remember-me")
+//                .and()
+//                .rememberMe()
+//                .rememberMeParameter("remember")
+//                .tokenValiditySeconds(3600)
+//                .userDetailsService(userDetailsService);
+
+        http.sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+//                .sessionFixation().changeSessionId();
+
+//                .invalidSessionUrl("/invalid")
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false);
+//                .expiredUrl("/expired");
 
     }
 }
