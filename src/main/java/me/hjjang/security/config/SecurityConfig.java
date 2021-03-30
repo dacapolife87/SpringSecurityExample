@@ -106,6 +106,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         response.sendRedirect("/denied");
                     }
                 });
+        
+        http
+                .csrf().disable(); // csrf 필터 기능을 사용안함 - 아예 필터 추가도안됨
 
     }
 }
