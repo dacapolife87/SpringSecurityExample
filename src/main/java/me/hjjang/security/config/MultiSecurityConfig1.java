@@ -22,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 @Order(0)
 public class MultiSecurityConfig1 extends WebSecurityConfigurerAdapter {
 
@@ -38,7 +38,7 @@ public class MultiSecurityConfig1 extends WebSecurityConfigurerAdapter {
     }
 }
 
-@Configuration
+//@Configuration
 @Order(1)
 class MultiSecurityConfig2 extends WebSecurityConfigurerAdapter {
 

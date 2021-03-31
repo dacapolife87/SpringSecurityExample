@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.SessionMan
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -29,8 +30,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @RequiredArgsConstructor
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -109,6 +110,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         
         http
                 .csrf().disable(); // csrf 필터 기능을 사용안함 - 아예 필터 추가도안됨
+
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
 
     }
 }
